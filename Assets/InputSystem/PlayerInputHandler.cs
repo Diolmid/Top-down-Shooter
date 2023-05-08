@@ -3,26 +3,22 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
 {
+    public bool ShootInput { get; private set; }
     public Vector2 MoveInput { get; private set; }
-    public Vector2 MouseInput { get; private set; }
+    public Vector2 MousePosition { get; private set; }
 
     public void OnMove(InputValue value)
     {
-        SetMoveInput(value.Get<Vector2>());
+        MoveInput = value.Get<Vector2>();
     }
 
-    public void OnMouse(InputValue value)
+    public void OnMouseMove(InputValue value)
     {
-        SetMouseInput(value.Get<Vector2>());
+        MousePosition = value.Get<Vector2>();
     }
 
-    public void SetMoveInput(Vector2 moveInput) 
+    public void OnShoot(InputValue value)
     {
-        MoveInput = moveInput;
-    }
-
-    public void SetMouseInput(Vector2 mouseInput)
-    {
-        MouseInput = mouseInput;
+        ShootInput = value.isPressed;
     }
 }
