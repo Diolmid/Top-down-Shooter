@@ -30,9 +30,7 @@ public class Player : LivingEntity
     private void GunHandler()
     {
         if (_inputHandler.ShootInput)
-        {
             _gunController.Shoot();
-        }
     }
 
     private void MoveHandler()

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class LivingEntity : MonoBehaviour, IDamageable
 {
+    public event System.Action OnDeath;
+
     protected float health;
     protected bool dead;
 
@@ -16,15 +18,15 @@ public class LivingEntity : MonoBehaviour, IDamageable
     {
         health -= damage;
 
-        if(health <= 0 && !dead)
-        {
+        if(health <= 0 && !dead) 
             Die();
-        }
     }
 
     protected void Die()
     {
         dead = true;
+        if(OnDeath != null) 
+            OnDeath();
         Destroy(gameObject);
     }
 }
