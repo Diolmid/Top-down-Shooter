@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent (typeof(PlayerController))]
 [RequireComponent (typeof(GunController))]
 [RequireComponent (typeof(PlayerInputHandler))]
-public class Player : MonoBehaviour
+public class Player : LivingEntity
 {
     [SerializeField] private float moveSpeed = 5f;
 
