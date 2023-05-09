@@ -440,7 +440,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050726949}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 2.63, y: 1, z: -2.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -641,7 +641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 6833874296011615192, guid: 128fd232905f84f4ea52236b3545b5f9, type: 3}
   waves:
-  - enemyCount: 5
+  - enemyCount: 1
     timeBetweenSpawns: 1
   - enemyCount: 10
     timeBetweenSpawns: 0.75
