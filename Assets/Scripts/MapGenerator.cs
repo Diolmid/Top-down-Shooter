@@ -4,12 +4,13 @@ using System.Collections.Generic;
 public class MapGenerator : MonoBehaviour
 {
     [SerializeField] private int obstacleSeed = 10;
-    [Range(0f, 1f)]
-    [SerializeField] private float outlinePercent;
+    [Range(0f, 1f), SerializeField] private float obstaclePercent;
+    [Range(0f, 1f), SerializeField] private float outlinePercent;
     [SerializeField] private Transform tilePrefab;
     [SerializeField] private Vector2 mapSize;
     [SerializeField] private Transform obstaclePrefab;
 
+    private Coord _mapCenter;
     private List<Coord> _allTileCoords;
     private Queue<Coord> _shuffledTileCoords;
 
@@ -29,6 +30,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
         _shuffledTileCoords = new Queue<Coord>(Utility.ShuffleArray(_allTileCoords.ToArray(), obstacleSeed));
+        _mapCenter = new Coord((int)mapSize.x / 2, (int)mapSize.y / 2);
 
         string holderName = "Generated Map";
         if (transform.Find(holderName))
@@ -47,13 +49,68 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        int obstacleCount = 10;
+        int obstacleCount = (int)(mapSize.x * mapSize.y * obstaclePercent);
+        int currentObstacleCount = 0;
+        bool[,] obstacleMap = new bool[(int)mapSize.x, (int)mapSize.y];
+
         for (int i = 0; i < obstacleCount; i++)
         {
             var randomCoord = GetRandomCoord();
-            var obstaclePosition = CoordToPosition(randomCoord.x, randomCoord.y);
-            var newObstacle = Instantiate(obstaclePrefab, obstaclePosition + Vector3.up * 0.5f, Quaternion.identity, mapHolder);
+            obstacleMap[randomCoord.x, randomCoord.y] = true;
+            currentObstacleCount++;
+
+            if(!randomCoord.Equals(_mapCenter) && MapIsFullyAccessible(obstacleMap, currentObstacleCount))
+            {
+                var obstaclePosition = CoordToPosition(randomCoord.x, randomCoord.y);
+
+                var newObstacle = Instantiate(obstaclePrefab, obstaclePosition + Vector3.up * 0.5f, Quaternion.identity, mapHolder);
+            }
+            else
+            {
+                obstacleMap[randomCoord.x, randomCoord.y] = false;
+                currentObstacleCount--;
+            }
         }
+    }
+
+    private bool MapIsFullyAccessible(bool[,] obstacleMap, int currentObstacleCount)
+    {
+        var mapFlags = new bool[obstacleMap.GetLength(0), obstacleMap.GetLength(1)];
+        var queue = new Queue<Coord>();
+
+        queue.Enqueue(_mapCenter);
+        mapFlags[_mapCenter.x, _mapCenter.y] = true;
+
+        int accessibleTileCount = 1;
+        while(queue.Count > 0)
+        {
+            var tile = queue.Dequeue();
+
+            for(var x = -1; x <= 1; x ++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    int neighbourX = tile.x + x;
+                    int neighbourY = tile.y + y;
+
+                    if(x == 0 ^ y == 0)
+                    {
+                        if(neighbourX >= 0 && neighbourX < obstacleMap.GetLength(0) && neighbourY >= 0 && neighbourY < obstacleMap.GetLength(1))
+                        {
+                            if (!mapFlags[neighbourX, neighbourY] && !obstacleMap[neighbourX, neighbourY])
+                            {
+                                mapFlags[neighbourX, neighbourY] = true;
+                                queue.Enqueue(new Coord(neighbourX, neighbourY));
+                                accessibleTileCount++;
+                            }
+                        }
+                    }
+                }
+            } 
+        }
+
+        int targetAccessibleTileCount = (int)(mapSize.x * mapSize.y - currentObstacleCount);
+        return targetAccessibleTileCount == accessibleTileCount;
     }
 
     private Vector3 CoordToPosition(int x, int y)
