@@ -9,6 +9,8 @@ public class Enemy : LivingEntity
 
     [SerializeField] private float pathRefreshRate = 0.25f;
 
+    [SerializeField] private GameObject deathEffect;
+
     private float _damage = 1;
     private float _attackDistanceThreshold = 0.5f;
     private float _timeBetweenAttack = 1;
@@ -67,6 +69,14 @@ public class Enemy : LivingEntity
                 }
             }
         }
+    }
+
+    public override void TakeHit(float damage, Vector3 hitPoint, Vector3 hitDirection)
+    {
+        if (damage >= health)
+            Destroy(Instantiate(deathEffect, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection)), 2);
+
+        base.TakeHit(damage, hitPoint, hitDirection);
     }
 
     private void OnTargetDeath()
