@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    public event System.Action<int> OnNewWave;
+
     [SerializeField] private Enemy enemy;
     [SerializeField] private Wave[] waves;
 
@@ -103,6 +105,11 @@ public class Spawner : MonoBehaviour
         _isDisabled = true;
     }
 
+    private void ResetPlayerPosition()
+    {
+        _playerTransform.position = _mapGenerator.GetTileFromPosition(Vector3.zero).position + Vector3.up * 3;
+    }
+
     private void NextWave()
     {
         _currentWaveNumber++;
@@ -112,6 +119,11 @@ public class Spawner : MonoBehaviour
 
             _enemiesRemainingToSpawn = _currentWave.enemyCount;
             _enemiesRemainingAlive = _enemiesRemainingToSpawn;
+
+            if (OnNewWave != null)
+                OnNewWave(_currentWaveNumber);
+
+            ResetPlayerPosition();
         }
     }
 
