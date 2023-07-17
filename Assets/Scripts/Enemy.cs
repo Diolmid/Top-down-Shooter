@@ -32,8 +32,8 @@ public class Enemy : LivingEntity
         if (_hasPlayerOnScene)
         {
             _hasTarget = true;
-            _targetEntity = _target.GetComponent<LivingEntity>();
             _target = GameObject.FindGameObjectWithTag("Player").transform;
+            _targetEntity = _target.GetComponent<LivingEntity>();
 
             _targetCollisionRadius = _target.GetComponent<CapsuleCollider>().radius;
             _myCollisionRadius = GetComponent<CapsuleCollider>().radius;
