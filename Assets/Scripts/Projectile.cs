@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float damage = 1f;
     [SerializeField] private float speed = 10f;
     [SerializeField] protected LayerMask collisionMask;
+    [SerializeField] private Color trailColour;
 
     private float _lifetime = 3;
     private float _distanceModifier = 0.1f;
@@ -17,6 +18,8 @@ public class Projectile : MonoBehaviour
         var initialCollisions = Physics.OverlapSphere(transform.position, 0.1f, collisionMask);
         if (initialCollisions.Length > 0 )
             OnHitObject(initialCollisions[0], transform.position);
+
+        GetComponent<TrailRenderer>().material.SetColor("_TintColor", trailColour);
     }
 
     void Update()
