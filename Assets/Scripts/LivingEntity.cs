@@ -4,10 +4,11 @@ public class LivingEntity : MonoBehaviour, IDamageable
 {
     public event System.Action OnDeath;
 
+    public float startingHealth;
+
     protected float health;
     protected bool dead;
 
-    [SerializeField] protected float startingHealth;
 
     protected virtual void Start()
     {

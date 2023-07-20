@@ -5,7 +5,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : LivingEntity
 {
-    public enum State { Idle, Chesing, Attacking}
+    public enum State { Idle, Chesing, Attacking }
 
     [SerializeField] private float pathRefreshRate = 0.25f;
 
@@ -46,9 +46,9 @@ public class Enemy : LivingEntity
     {
         base.Start();
 
-        if (_hasPlayerOnScene)
+        if (_hasTarget)
         {
-            _currentState = State.Chesing;  
+            _currentState = State.Chesing;
             _targetEntity.OnDeath += OnTargetDeath;
         }
 
@@ -59,7 +59,7 @@ public class Enemy : LivingEntity
     {
         if (_hasTarget)
         {
-            if(Time.time > _nextAttackTime)
+            if (Time.time > _nextAttackTime)
             {
                 float sqrDisToTarget = (_target.position - transform.position).sqrMagnitude;
                 if (sqrDisToTarget < Mathf.Pow(_attackDistanceThreshold + _myCollisionRadius + _targetCollisionRadius, 2))
@@ -69,6 +69,17 @@ public class Enemy : LivingEntity
                 }
             }
         }
+    }
+
+    public void SetCharacteristics(float moveSpeed, int hitsToKillPlayer, float enemyHealth)
+    {
+        _navMesh.speed = moveSpeed;
+
+        if (_hasTarget)
+            _damage =  Mathf.Ceil(_targetEntity.startingHealth / hitsToKillPlayer);
+
+        startingHealth = enemyHealth;
+
     }
 
     public override void TakeHit(float damage, Vector3 hitPoint, Vector3 hitDirection)
