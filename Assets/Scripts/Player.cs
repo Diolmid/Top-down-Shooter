@@ -7,6 +7,8 @@ public class Player : LivingEntity
 {
     [SerializeField] private float moveSpeed = 5f;
 
+    [SerializeField] private Crosshairs crosshairs;
+
     private PlayerController _playerController;
     private PlayerInputHandler _inputHandler;
     private GunController _gunController;
@@ -46,13 +48,15 @@ public class Player : LivingEntity
     private void RotateHandler()
     {
         Ray ray = _viewCamera.ScreenPointToRay(_inputHandler.MousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+        Plane groundPlane = new Plane(Vector3.up, Vector3.up * _gunController.GunHeight);
         float rayDistance;
 
         if (groundPlane.Raycast(ray, out rayDistance))
         {
             Vector3 hitPoint = ray.GetPoint(rayDistance);
             _playerController.LookAt(hitPoint);
+            crosshairs.transform.position = hitPoint;
+            crosshairs.DetectTargets(ray);
         }
     }
 }
