@@ -35,6 +35,8 @@ public class Player : LivingEntity
             _gunController.OnTriggerHold();
         if (!_inputHandler.ShootInput)
             _gunController.OnTriggerRelease();
+        if (_inputHandler.ReloadInput)
+            _gunController.Reload();
     }
 
     private void MoveHandler()
@@ -57,6 +59,8 @@ public class Player : LivingEntity
             _playerController.LookAt(hitPoint);
             crosshairs.transform.position = hitPoint;
             crosshairs.DetectTargets(ray);
+            if((new Vector2(hitPoint.x, hitPoint.z) - new Vector2(transform.position.x, transform.position.z)).sqrMagnitude > 1)
+                _gunController.Aim(hitPoint);
         }
     }
 }

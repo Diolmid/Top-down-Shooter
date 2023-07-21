@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour
 {
     public bool ShootInput { get; private set; }
+    public bool ReloadInput { get; private set; }
     public Vector2 MoveInput { get; private set; }
     public Vector2 MousePosition { get; private set; }
 
@@ -20,5 +21,10 @@ public class PlayerInputHandler : MonoBehaviour
     public void OnShoot(InputValue value)
     {
         ShootInput = value.isPressed;
+    }
+
+    public void OnReload(InputValue value)
+    {
+        ReloadInput = value.isPressed;
     }
 }

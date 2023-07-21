@@ -21223,7 +21223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 6833874296011615192, guid: 128fd232905f84f4ea52236b3545b5f9, type: 3}
   waves:
-  - enemyCount: 40
+  - enemyCount: 0
     timeBetweenSpawns: 0.7
     moveSpeed: 2.2
     hitsToKillPlayer: 5

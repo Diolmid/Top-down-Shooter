@@ -325,13 +325,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireMode: 0
+  projectilesPerMag: 10
   bursCount: 3
+  reloadTime: 0.3
   timeBetweenShots: 0.15
   muzzleVelocity: 50
   projectile: {fileID: -7056644595173366424, guid: c51f45f97796fed44968e4aab990d237, type: 3}
   projectileSpawn:
   - {fileID: 7279570343913062961}
   - {fileID: 4136800577296634814}
+  recoilMoveSettleTime: 0.1
+  recoilRotationSettleTime: 0.1
+  kickMinMax: {x: 0.05, y: 0.2}
+  recoilAngleMinMax: {x: 3, y: 5}
   shell: {fileID: 7246613023774298651, guid: d7f065c362c59454fb3f4d3507b93bc9, type: 3}
   shellEjection: {fileID: 2291988696067555923}
 --- !u!114 &3262986328804984613

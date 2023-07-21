@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
+    public float GunHeight { get { return gunHold.position.y; } }
+
     [SerializeField] private Transform gunHold;
     [SerializeField] private Gun startingGun;
 
@@ -21,6 +23,18 @@ public class GunController : MonoBehaviour
         _equippedGun = Instantiate(gunToEquip, gunHold.position, gunHold.rotation, gunHold);
     }
 
+    public void Aim(Vector3 aimPoint)
+    {
+        if (_equippedGun != null)
+            _equippedGun.Aim(aimPoint);
+    }
+
+    public void Reload()
+    {
+        if (_equippedGun != null)
+            _equippedGun.Reload();
+    }
+
     public void OnTriggerHold()
     {
         if(_equippedGun != null)
@@ -31,10 +45,5 @@ public class GunController : MonoBehaviour
     {
         if (_equippedGun != null)
             _equippedGun.OnTriggerRelease();
-    }
-
-    public float GunHeight
-    {
-        get{ return gunHold.position.y; }
     }
 }
