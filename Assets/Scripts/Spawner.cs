@@ -5,8 +5,8 @@ public class Spawner : MonoBehaviour
 {
     public event System.Action<int> OnNewWave;
 
+    public Wave[] waves;
     [SerializeField] private Enemy enemy;
-    [SerializeField] private Wave[] waves;
 
     private int _enemiesRemainingToSpawn;
     private int _enemiesRemainingAlive;

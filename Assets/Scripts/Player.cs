@@ -20,6 +20,8 @@ public class Player : LivingEntity
         _playerController = GetComponent<PlayerController>();
         _inputHandler = GetComponent<PlayerInputHandler>();
         _gunController = GetComponent<GunController>();
+
+        FindObjectOfType<Spawner>().OnNewWave += OnNewWave;
     }
 
     void Update()
@@ -27,6 +29,12 @@ public class Player : LivingEntity
         MoveHandler();
         RotateHandler();
         GunHandler();
+    }
+
+    private void OnNewWave(int waveNumber)
+    {
+        health = startingHealth;
+        _gunController.EquipGun(waveNumber - 1);
     }
 
     private void GunHandler()

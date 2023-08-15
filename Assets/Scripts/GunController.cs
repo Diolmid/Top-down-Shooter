@@ -5,14 +5,13 @@ public class GunController : MonoBehaviour
     public float GunHeight { get { return gunHold.position.y; } }
 
     [SerializeField] private Transform gunHold;
-    [SerializeField] private Gun startingGun;
+    [SerializeField] private Gun[] allGuns;
 
     private Gun _equippedGun;
 
     private void Start()
     {
-        if(startingGun != null)
-            EquipGun(startingGun);
+        
     }
 
     public void EquipGun(Gun gunToEquip)
@@ -21,6 +20,11 @@ public class GunController : MonoBehaviour
             Destroy(_equippedGun.gameObject);
 
         _equippedGun = Instantiate(gunToEquip, gunHold.position, gunHold.rotation, gunHold);
+    }
+
+    public void EquipGun(int gunIndex)
+    {
+        EquipGun(allGuns[gunIndex]);
     }
 
     public void Aim(Vector3 aimPoint)
