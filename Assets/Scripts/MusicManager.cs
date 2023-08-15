@@ -9,7 +9,7 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.instance.PlayMusic(mainTheme, 2);
+        AudioManager.instance.PlayMusic(menuTheme, 2);
     }
 
     private void Update()
